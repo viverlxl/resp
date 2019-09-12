@@ -69,6 +69,12 @@ class ConnPool:
     def get_obj(self):
         # 返回池对象, 检查是否被初始化, 检查是否超过对象池大小, 检查是否被已经处于被使用状态
         obj = None
+        try:
+            obj = self.used_locals.obj_name
+            return obj['obj']
+        except:
+            pass
+
         if self.lock.acquire():
             try:
                 obj = self.init_stack.pop()
@@ -131,6 +137,7 @@ class ConnPool:
                 self.init_stack.put(obj['obj'])
             except:
                 logging.info("release error")
+                self.lock.release()
                 raise RuntimeError("current thread can not get used obj")
             finally:
                 self.lock.release()
