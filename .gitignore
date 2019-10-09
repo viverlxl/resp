@@ -36,6 +36,9 @@ __pycache__/
 
 # C extensions
 *.so
+*.out
+*.c
+*.cpp
 
 # Distribution / packaging
 .Python
@@ -58,4 +61,5 @@ test/
 *.log
 *.swp
 *.txt
+*.pyc
 scripts/cate_predict/data/
