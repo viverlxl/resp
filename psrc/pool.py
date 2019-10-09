@@ -17,10 +17,10 @@ logging.basicConfig(
 
 class ConnPool:
 
-    def __init__(self, pool_size = 5, auto_check = False, retry_time = 10000, timeout = 60 * 60 * 1000):
+    def __init__(self, pool_size = 5, init_size = 5,auto_check = False, retry_time = 10000, timeout = 60 * 60 * 1000):
         self.init_stack = LocalStack(pool_size)
         self.pool_size  = pool_size
-        self.init_size  = 5
+        self.init_size  = init_size
         self.used_locals = Local()
         self.lock  = Lock()
         self.auto_check = auto_check
@@ -129,7 +129,6 @@ class ConnPool:
 
     def release_obj(self):
         # 释放的对象重新入池
-        # print(self.init_stack.get_size())
         if self.lock.acquire():
             try:
                 obj = self.used_locals.obj_name
